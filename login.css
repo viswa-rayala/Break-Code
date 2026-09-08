@@ -108,6 +108,17 @@ body{
     display: none;
 }
 
+.hidden {
+    display: none;
+}
+
+.otp-message {
+    margin: -6px 0 18px;
+    color: #2563eb;
+    font-size: 13px;
+    text-align: left;
+}
+
 .form-options {
     display: flex;
     justify-content: space-between;
