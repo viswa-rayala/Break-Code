@@ -75,9 +75,19 @@
         eyeClosed.classList.toggle('hidden', !isPassword);
     });
 
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
-        alert('Login form submitted successfully!');
+
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: document.getElementById('email').value,
+                password: passwordInput.value
+            })
+        });
+        const result = await response.json();
+        alert(result.message);
     });
 </script>
 

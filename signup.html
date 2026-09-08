@@ -83,7 +83,7 @@
         eyeClosed.classList.toggle('hidden', !isPassword);
     });
 
-    document.getElementById('signupForm').addEventListener('submit', function (e) {
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         if (passwordInput.value !== document.getElementById('confirmPassword').value) {
@@ -91,7 +91,21 @@
             return;
         }
 
-        alert('Account created successfully!');
+        const response = await fetch('/api/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: passwordInput.value
+            })
+        });
+        const result = await response.json();
+        alert(result.message);
+
+        if (response.ok) {
+            window.location.href = 'login.html';
+        }
     });
 </script>
 
