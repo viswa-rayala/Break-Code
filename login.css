@@ -25,6 +25,14 @@ body{
     backdrop-filter: blur(10px);
 }
 
+.brand-logo{
+    display: block;
+    width: min(100%, 250px);
+    height: auto;
+    margin: 0 auto 12px;
+    object-fit: contain;
+}
+
 .logo{
     color:#2563eb;
     font-size: 28px;
