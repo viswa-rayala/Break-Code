@@ -1,31 +1,17 @@
-const path = require('path');
 const crypto = require('crypto');
+const path = require('path');
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const Database = require('better-sqlite3');
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-const database = new Database(path.join(__dirname, 'break-code.db'));
-
-database.pragma('journal_mode = WAL');
-database.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE COLLATE NOCASE,
-        password_hash TEXT NOT NULL,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE IF NOT EXISTS password_resets (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT NOT NULL COLLATE NOCASE,
-        otp_hash TEXT NOT NULL,
-        expires_at INTEGER NOT NULL,
-        used INTEGER NOT NULL DEFAULT 0
-    );
-`);
+const mongoUri = process.env.MONGODB_URI;
+const databaseName = process.env.MONGODB_DATABASE || 'breakcode';
+const mongoClient = mongoUri ? new MongoClient(mongoUri) : null;
+let users;
+let passwordResets;
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -38,17 +24,18 @@ app.post('/api/signup', async (request, response) => {
         return response.status(400).json({ message: 'Name, email, and a password of at least 8 characters are required.' });
     }
 
-    const existingUser = database.prepare('SELECT id FROM users WHERE email = ?').get(normalizedEmail);
+    const existingUser = await users.findOne({ email: normalizedEmail });
     if (existingUser) {
         return response.status(409).json({ message: 'An account with that email already exists.' });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    database.prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)').run(
-        name.trim(),
-        normalizedEmail,
-        passwordHash
-    );
+    await users.insertOne({
+        name: name.trim(),
+        email: normalizedEmail,
+        passwordHash,
+        createdAt: new Date()
+    });
 
     return response.status(201).json({ message: 'Account created successfully.' });
 });
@@ -56,21 +43,21 @@ app.post('/api/signup', async (request, response) => {
 app.post('/api/login', async (request, response) => {
     const { email, password } = request.body;
     const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
-    const user = database.prepare('SELECT id, name, email, password_hash FROM users WHERE email = ?').get(normalizedEmail);
+    const user = await users.findOne({ email: normalizedEmail });
 
-    if (!user || typeof password !== 'string' || !(await bcrypt.compare(password, user.password_hash))) {
+    if (!user || typeof password !== 'string' || !(await bcrypt.compare(password, user.passwordHash))) {
         return response.status(401).json({ message: 'Invalid email or password.' });
     }
 
     return response.json({
         message: 'Login successful.',
-        user: { id: user.id, name: user.name, email: user.email }
+        user: { id: user._id.toString(), name: user.name, email: user.email }
     });
 });
 
-app.post('/api/forgot-password/request', (request, response) => {
+app.post('/api/forgot-password/request', async (request, response) => {
     const email = typeof request.body.email === 'string' ? request.body.email.trim().toLowerCase() : '';
-    const user = database.prepare('SELECT id FROM users WHERE email = ?').get(email);
+    const user = await users.findOne({ email });
 
     if (!user) {
         return response.status(404).json({ message: 'No account was found for that email.' });
@@ -78,12 +65,14 @@ app.post('/api/forgot-password/request', (request, response) => {
 
     const otp = crypto.randomInt(100000, 1000000).toString();
     const otpHash = bcrypt.hashSync(otp, 10);
-    database.prepare('UPDATE password_resets SET used = 1 WHERE email = ? AND used = 0').run(email);
-    database.prepare('INSERT INTO password_resets (email, otp_hash, expires_at) VALUES (?, ?, ?)').run(
+    await passwordResets.updateMany({ email, used: false }, { $set: { used: true } });
+    await passwordResets.insertOne({
         email,
         otpHash,
-        Date.now() + 10 * 60 * 1000
-    );
+        expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+        createdAt: new Date(),
+        used: false
+    });
 
     console.log(`[development] OTP for ${email}: ${otp}`);
     return response.json({ message: 'OTP generated. Check the server terminal in development.' });
@@ -92,11 +81,12 @@ app.post('/api/forgot-password/request', (request, response) => {
 app.post('/api/forgot-password/verify', async (request, response) => {
     const { email, otp } = request.body;
     const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
-    const reset = database.prepare(
-        'SELECT id, otp_hash FROM password_resets WHERE email = ? AND used = 0 AND expires_at > ? ORDER BY id DESC LIMIT 1'
-    ).get(normalizedEmail, Date.now());
+    const reset = await passwordResets.findOne(
+        { email: normalizedEmail, used: false, expiresAt: { $gt: new Date() } },
+        { sort: { createdAt: -1 } }
+    );
 
-    if (!reset || typeof otp !== 'string' || !(await bcrypt.compare(otp, reset.otp_hash))) {
+    if (!reset || typeof otp !== 'string' || !(await bcrypt.compare(otp, reset.otpHash))) {
         return response.status(400).json({ message: 'Invalid or expired OTP.' });
     }
 
@@ -106,11 +96,12 @@ app.post('/api/forgot-password/verify', async (request, response) => {
 app.post('/api/forgot-password/reset', async (request, response) => {
     const { email, otp, password } = request.body;
     const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
-    const reset = database.prepare(
-        'SELECT id, otp_hash FROM password_resets WHERE email = ? AND used = 0 AND expires_at > ? ORDER BY id DESC LIMIT 1'
-    ).get(normalizedEmail, Date.now());
+    const reset = await passwordResets.findOne(
+        { email: normalizedEmail, used: false, expiresAt: { $gt: new Date() } },
+        { sort: { createdAt: -1 } }
+    );
 
-    if (!reset || typeof otp !== 'string' || !(await bcrypt.compare(otp, reset.otp_hash))) {
+    if (!reset || typeof otp !== 'string' || !(await bcrypt.compare(otp, reset.otpHash))) {
         return response.status(400).json({ message: 'Invalid or expired OTP.' });
     }
 
@@ -119,11 +110,30 @@ app.post('/api/forgot-password/reset', async (request, response) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    database.prepare('UPDATE users SET password_hash = ? WHERE email = ?').run(passwordHash, normalizedEmail);
-    database.prepare('UPDATE password_resets SET used = 1 WHERE id = ?').run(reset.id);
+    await users.updateOne({ email: normalizedEmail }, { $set: { passwordHash } });
+    await passwordResets.updateOne({ _id: reset._id }, { $set: { used: true } });
     return response.json({ message: 'Password reset successfully. You can now log in.' });
 });
 
-app.listen(port, () => {
-    console.log(`BreakCode is running at http://localhost:${port}`);
+async function startServer() {
+    if (!mongoClient) {
+        throw new Error('MONGODB_URI is missing. Add your MongoDB Atlas connection string to .env.');
+    }
+
+    await mongoClient.connect();
+    const database = mongoClient.db(databaseName);
+    users = database.collection('users');
+    passwordResets = database.collection('passwordResets');
+    await users.createIndex({ email: 1 }, { unique: true });
+    await passwordResets.createIndex({ email: 1, used: 1, expiresAt: 1 });
+
+    app.listen(port, () => {
+        console.log(`BreakCode is running at http://localhost:${port}`);
+        console.log(`Connected to MongoDB Atlas database: ${databaseName}`);
+    });
+}
+
+startServer().catch((error) => {
+    console.error(`Unable to start BreakCode: ${error.message}`);
+    process.exit(1);
 });
