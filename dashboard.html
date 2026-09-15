@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreakCode Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" aria-label="Main navigation">
+            <a class="brand" href="dashboard.html" aria-label="BreakCode home">
+                <img src="logo.svg" alt="BreakCode">
+            </a>
+            <nav class="main-nav">
+                <a class="nav-link active" href="#overview">
+                    <span class="nav-icon">⌂</span> Overview
+                </a>
+                <a class="nav-link" href="#courses">
+                    <span class="nav-icon">▣</span> My courses
+                </a>
+                <a class="nav-link" href="#progress">
+                    <span class="nav-icon">◔</span> Progress
+                </a>
+                <a class="nav-link" href="#explore">
+                    <span class="nav-icon">⌕</span> Explore
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-note">
+                    <span class="spark">✦</span>
+                    <strong>Keep building.</strong>
+                    <span>Your next breakthrough is one lesson away.</span>
+                </div>
+                <button class="logout-link" id="logoutButton" type="button">Log out <span>↗</span></button>
+            </div>
+        </aside>
+
+        <main class="main-content" id="overview">
+            <header class="topbar">
+                <button class="mobile-menu" id="mobileMenuButton" type="button" aria-label="Open navigation">☰</button>
+                <div class="breadcrumb">Workspace <span>/</span> Learning hub</div>
+                <div class="topbar-actions">
+                    <button class="icon-button" type="button" aria-label="Notifications">♧<span class="notification-dot"></span></button>
+                    <div class="profile-chip">
+                        <span class="avatar" id="userAvatar">BC</span>
+                        <span class="profile-name" id="profileName">Student</span>
+                        <span class="profile-chevron">⌄</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="welcome-section">
+                <div>
+                    <p class="eyebrow">WEDNESDAY, SEPTEMBER 16</p>
+                    <h1>Good morning, <span id="welcomeName">builder</span>.</h1>
+                    <p class="welcome-copy">Pick up where you left off or find a new skill to sharpen today.</p>
+                </div>
+                <div class="streak-badge"><span>✦</span><strong>4 day streak</strong><small>Keep it going</small></div>
+            </section>
+
+            <section class="learning-focus" id="progress" aria-label="Continue learning">
+                <div class="focus-copy">
+                    <p class="eyebrow accent-eyebrow">CONTINUE LEARNING</p>
+                    <h2>JavaScript foundations</h2>
+                    <p>Functions, arrays and the logic behind interactive experiences.</p>
+                    <div class="progress-row"><span>64% complete</span><span>8 of 12 lessons</span></div>
+                    <div class="progress-track"><span style="width: 64%"></span></div>
+                    <button class="primary-button course-action" type="button" data-course="JavaScript foundations">Continue course <span>→</span></button>
+                </div>
+                <div class="focus-art" aria-hidden="true"><span>const</span><strong>create</strong><span>() =&gt; {</span><em>breakCode</em><span>}</span></div>
+            </section>
+
+            <section class="stats-grid" aria-label="Learning summary">
+                <div class="stat-item"><span class="stat-icon blue">◷</span><div><strong>12.5h</strong><span>Learning time</span></div></div>
+                <div class="stat-item"><span class="stat-icon orange">✓</span><div><strong>18</strong><span>Lessons completed</span></div></div>
+                <div class="stat-item"><span class="stat-icon green">⌁</span><div><strong>3</strong><span>Courses in progress</span></div></div>
+            </section>
+
+            <section class="courses-section" id="courses">
+                <div class="section-heading">
+                    <div><p class="eyebrow">YOUR LIBRARY</p><h2>Explore courses</h2></div>
+                    <label class="search-box"><span>⌕</span><input id="courseSearch" type="search" placeholder="Search courses" aria-label="Search courses"></label>
+                </div>
+                <div class="category-tabs" role="tablist" aria-label="Course categories">
+                    <button class="category-tab active" type="button" data-category="all">All courses</button>
+                    <button class="category-tab" type="button" data-category="web">Web development</button>
+                    <button class="category-tab" type="button" data-category="data">Data &amp; AI</button>
+                    <button class="category-tab" type="button" data-category="tools">Tools</button>
+                </div>
+                <div class="course-grid" id="courseGrid">
+                    <article class="course-card" data-category="web" data-title="HTML and CSS essentials">
+                        <div class="course-visual visual-coral"><span class="visual-label">&lt;/&gt;</span><span class="visual-lines">────────<br>──────</span></div>
+                        <div class="course-body"><span class="course-level">BEGINNER · 6 HOURS</span><h3>HTML &amp; CSS essentials</h3><p>Build polished pages from the ground up.</p><div class="course-footer"><span class="course-meta">24 lessons</span><button class="text-button course-action" type="button" data-course="HTML & CSS essentials">Start course <span>→</span></button></div></div>
+                    </article>
+                    <article class="course-card" data-category="web" data-title="React in practice">
+                        <div class="course-visual visual-blue"><span class="react-mark">✣</span><span class="visual-caption">COMPONENT<br>THINKING</span></div>
+                        <div class="course-body"><span class="course-level">INTERMEDIATE · 9 HOURS</span><h3>React in practice</h3><p>Turn ideas into fast, flexible interfaces.</p><div class="course-footer"><span class="course-meta">31 lessons</span><button class="text-button course-action" type="button" data-course="React in practice">Start course <span>→</span></button></div></div>
+                    </article>
+                    <article class="course-card" data-category="data" data-title="Python for data thinking">
+                        <div class="course-visual visual-lime"><span class="python-mark">Py</span><span class="visual-caption">MAKE DATA<br>MAKE SENSE</span></div>
+                        <div class="course-body"><span class="course-level">BEGINNER · 7 HOURS</span><h3>Python for data thinking</h3><p>Learn to explore, shape and explain data.</p><div class="course-footer"><span class="course-meta">20 lessons</span><button class="text-button course-action" type="button" data-course="Python for data thinking">Start course <span>→</span></button></div></div>
+                    </article>
+                    <article class="course-card" data-category="tools" data-title="Git and GitHub workflow">
+                        <div class="course-visual visual-navy"><span class="git-mark">⎇</span><span class="visual-caption">SHIP WITH<br>CONFIDENCE</span></div>
+                        <div class="course-body"><span class="course-level">ALL LEVELS · 3 HOURS</span><h3>Git &amp; GitHub workflow</h3><p>Make version control part of your rhythm.</p><div class="course-footer"><span class="course-meta">12 lessons</span><button class="text-button course-action" type="button" data-course="Git & GitHub workflow">Start course <span>→</span></button></div></div>
+                    </article>
+                    <article class="course-card" data-category="data" data-title="Machine learning basics">
+                        <div class="course-visual visual-gold"><span class="visual-label">01</span><span class="visual-lines">● ● ●<br>● ● ●</span></div>
+                        <div class="course-body"><span class="course-level">INTERMEDIATE · 10 HOURS</span><h3>Machine learning basics</h3><p>Understand models without the mystery.</p><div class="course-footer"><span class="course-meta">28 lessons</span><button class="text-button course-action" type="button" data-course="Machine learning basics">Start course <span>→</span></button></div></div>
+                    </article>
+                    <article class="course-card" data-category="tools" data-title="SQL from zero">
+                        <div class="course-visual visual-teal"><span class="visual-label">SELECT</span><span class="visual-lines">* FROM<br>knowledge</span></div>
+                        <div class="course-body"><span class="course-level">BEGINNER · 4 HOURS</span><h3>SQL from zero</h3><p>Ask better questions of your data.</p><div class="course-footer"><span class="course-meta">15 lessons</span><button class="text-button course-action" type="button" data-course="SQL from zero">Start course <span>→</span></button></div></div>
+                    </article>
+                </div>
+                <p class="empty-state hidden" id="emptyState">No courses match that search.</p>
+            </section>
+        </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+        const savedUser = JSON.parse(localStorage.getItem('breakcodeUser') || 'null');
+        if (!savedUser) {
+            window.location.replace('login.html');
+        }
+
+        const firstName = (savedUser?.name || 'Builder').trim().split(' ')[0];
+        document.getElementById('welcomeName').textContent = firstName;
+        document.getElementById('profileName').textContent = savedUser?.name || 'Student';
+        document.getElementById('userAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+
+        const toast = document.getElementById('toast');
+        document.querySelectorAll('.course-action').forEach((button) => {
+            button.addEventListener('click', () => {
+                toast.textContent = `${button.dataset.course} is ready when you are.`;
+                toast.classList.add('show');
+                window.setTimeout(() => toast.classList.remove('show'), 2600);
+            });
+        });
+
+        const courseCards = [...document.querySelectorAll('.course-card')];
+        const tabs = [...document.querySelectorAll('.category-tab')];
+        const searchInput = document.getElementById('courseSearch');
+        let selectedCategory = 'all';
+        function filterCourses() {
+            const query = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+            courseCards.forEach((card) => {
+                const matchesCategory = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+                const matchesSearch = card.dataset.title.toLowerCase().includes(query);
+                card.hidden = !(matchesCategory && matchesSearch);
+                if (!card.hidden) visibleCount += 1;
+            });
+            document.getElementById('emptyState').classList.toggle('hidden', visibleCount > 0);
+        }
+        tabs.forEach((tab) => tab.addEventListener('click', () => {
+            selectedCategory = tab.dataset.category;
+            tabs.forEach((item) => item.classList.toggle('active', item === tab));
+            filterCourses();
+        }));
+        searchInput.addEventListener('input', filterCourses);
+
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('breakcodeUser');
+            window.location.href = 'login.html';
+        });
+        document.getElementById('mobileMenuButton').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

@@ -9,7 +9,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI;
 const databaseName = process.env.MONGODB_DATABASE || 'breakcode';
-const mongoClient = mongoUri ? new MongoClient(mongoUri) : null;
+const mongoClient = mongoUri ? new MongoClient(mongoUri, {
+    serverSelectionTimeoutMS: Number(process.env.MONGODB_SERVER_SELECTION_TIMEOUT_MS || 10000)
+}) : null;
 let users;
 let passwordResets;
 
@@ -120,7 +122,17 @@ async function startServer() {
         throw new Error('MONGODB_URI is missing. Add your MongoDB Atlas connection string to .env.');
     }
 
-    await mongoClient.connect();
+    try {
+        await mongoClient.connect();
+    } catch (error) {
+        const message = error?.message || '';
+        if (error?.name === 'MongoServerSelectionError' && /SSL|TLS|ENOTFOUND|ECONNREFUSED/i.test(message)) {
+            throw new Error(
+                'Could not reach MongoDB Atlas. Verify the cluster hostname, add this machine\'s public IP to Atlas Network Access, and check that the current network allows outbound TCP 27017. Original error: ' + message
+            );
+        }
+        throw error;
+    }
     const database = mongoClient.db(databaseName);
     users = database.collection('users');
     passwordResets = database.collection('passwordResets');
