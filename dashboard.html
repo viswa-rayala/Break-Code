@@ -55,6 +55,7 @@
                         <div class="profile-menu-header"><span class="avatar" id="menuAvatar">BC</span><div><strong id="menuName">Student</strong><small id="menuEmail">student@example.com</small></div></div>
                         <button class="menu-item" type="button" data-panel="profilePanel"><span>♙</span> Profile <b>→</b></button>
                         <button class="menu-item" type="button" data-panel="trackingPanel"><span>◷</span> Daily practice <b>→</b></button>
+                        <button class="menu-item" type="button" data-panel="certificationsPanel"><span>✧</span> Certifications <b>→</b></button>
                         <button class="menu-item" type="button" data-panel="settingsPanel"><span>⚙</span> Settings <b>→</b></button>
                         <button class="menu-item theme-menu-item" id="themeToggle" type="button"><span id="themeIcon">☾</span> <span id="themeLabel">Dark theme</span><b>⌘</b></button>
                     </div>
@@ -145,6 +146,12 @@
                 <div class="tracking-stats"><div><strong>4</strong><span>day streak</span></div><div><strong>126</strong><span>minutes this week</span></div><div><strong>5</strong><span>day goal</span></div></div>
                 <h3 class="panel-subtitle">This week</h3><div class="practice-week"><button class="practice-day complete" type="button">M<small>24m</small></button><button class="practice-day complete" type="button">T<small>31m</small></button><button class="practice-day complete" type="button">W<small>28m</small></button><button class="practice-day complete" type="button">T<small>43m</small></button><button class="practice-day" type="button">F<small>Start</small></button><button class="practice-day" type="button">S<small>Start</small></button><button class="practice-day" type="button">S<small>Start</small></button></div>
             </div>
+            <div class="panel-content" id="certificationsPanel" hidden>
+                <p class="eyebrow">YOUR ACHIEVEMENTS</p><h2>Certifications</h2><p class="panel-intro">Proof of the skills you have built on BreakCode.</p>
+                <div class="certificate-card"><span class="certificate-icon">✦</span><div><strong>JavaScript foundations</strong><span>Completed September 2026</span></div><button class="certificate-download" type="button" data-certificate="JavaScript foundations" aria-label="Download JavaScript foundations certificate">↓</button></div>
+                <div class="certificate-card"><span class="certificate-icon coral">◇</span><div><strong>HTML &amp; CSS essentials</strong><span>Completed August 2026</span></div><button class="certificate-download" type="button" data-certificate="HTML & CSS essentials" aria-label="Download HTML and CSS essentials certificate">↓</button></div>
+                <div class="certificate-card locked"><span class="certificate-icon muted-icon">○</span><div><strong>React in practice</strong><span>Complete 31 lessons to unlock</span></div><span class="certificate-lock">Locked</span></div>
+            </div>
             <div class="panel-content" id="settingsPanel" hidden>
                 <p class="eyebrow">PREFERENCES</p><h2>Settings</h2>
                 <div class="setting-row"><div><strong>Daily reminders</strong><span>Get a nudge when it is time to practice.</span></div><button class="switch active" type="button" aria-label="Toggle daily reminders"><span></span></button></div>
@@ -218,6 +225,11 @@
         themeToggle.addEventListener('click', toggleTheme);
         panelThemeToggle.addEventListener('click', toggleTheme);
         document.querySelectorAll('.switch').forEach((toggle) => toggle.addEventListener('click', () => toggle.classList.toggle('active')));
+        document.querySelectorAll('.certificate-download').forEach((button) => button.addEventListener('click', () => {
+            toast.textContent = `${button.dataset.certificate} certificate download is ready.`;
+            toast.classList.add('show');
+            window.setTimeout(() => toast.classList.remove('show'), 2600);
+        }));
 
         const toast = document.getElementById('toast');
         document.querySelectorAll('.course-action').forEach((button) => {
