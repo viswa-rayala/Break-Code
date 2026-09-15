@@ -16,6 +16,7 @@ let users;
 let passwordResets;
 
 app.use(express.json());
+app.get('/', (request, response) => response.redirect('/login.html'));
 app.use(express.static(__dirname));
 
 app.post('/api/signup', async (request, response) => {
