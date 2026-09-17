@@ -8,7 +8,7 @@ button { cursor: pointer; }
 .app-shell { display: flex; min-height: 100vh; }
 .sidebar { width: 236px; flex: 0 0 236px; background: #fff; border-right: 1px solid var(--line); display: flex; flex-direction: column; padding: 28px 18px 22px; }
 .brand { display: block; padding: 0 14px 46px; }
-.brand img { display: block; width: 136px; height: auto; }
+.brand img { display: block; width: 180px; height: auto; }
 .main-nav { display: grid; gap: 7px; }
 .nav-link { align-items: center; border-radius: 9px; color: #718096; display: flex; font-size: 14px; font-weight: 600; gap: 13px; padding: 12px 14px; text-decoration: none; }
 .nav-link:hover, .nav-link.active { background: #eef4ff; color: var(--blue); }
