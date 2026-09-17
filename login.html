@@ -61,6 +61,16 @@
 
     </form>
 
+    <div id="popup" class="popup hidden" role="alert" aria-live="assertive">
+        <div class="popup-card">
+            <div class="popup-icon">✓</div>
+            <div class="popup-text">
+                <h3>Success</h3>
+                <p id="popupMessage">Action completed.</p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -68,6 +78,24 @@
     const togglePasswordBtn = document.getElementById('togglePasswordBtn');
     const eyeOpen = togglePasswordBtn.querySelector('.eye-open');
     const eyeClosed = togglePasswordBtn.querySelector('.eye-closed');
+    const popup = document.getElementById('popup');
+    const popupMessage = document.getElementById('popupMessage');
+
+    function showSuccessPopup(message, redirectUrl) {
+        popupMessage.textContent = message;
+        popup.classList.remove('hidden');
+        popup.classList.add('visible');
+
+        setTimeout(() => {
+            popup.classList.remove('visible');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }, 250);
+        }, 1800);
+    }
 
     togglePasswordBtn.addEventListener('click', function () {
         const isPassword = passwordInput.getAttribute('type') === 'password';
@@ -88,12 +116,14 @@
             })
         });
         const result = await response.json();
-        alert(result.message);
 
         if (response.ok) {
             localStorage.setItem('breakcodeUser', JSON.stringify(result.user));
-            window.location.href = 'dashboard.html';
+            showSuccessPopup(result.message, 'dashboard.html');
+            return;
         }
+
+        alert(result.message);
     });
 </script>
 
