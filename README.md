@@ -2,6 +2,10 @@
 
 A student project built to practice full-stack web development with authentication, protected routes, and a dashboard UI.
 
+## Live Demo
+
+https://break-code.onrender.com
+
 This project includes:
 
 - Signup and login flow
