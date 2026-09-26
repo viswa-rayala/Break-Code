@@ -17,10 +17,12 @@ const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_for_development_onl
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.ethereal.email',
     port: process.env.SMTP_PORT || 587,
+    secure: process.env.SMTP_PORT == 465, // true for 465, false for other ports
     auth: {
         user: process.env.SMTP_USER || 'ethereal_user',
         pass: process.env.SMTP_PASS || 'ethereal_pass'
-    }
+    },
+    connectionTimeout: 10000 // 10 seconds
 });
 const mongoClient = mongoUri ? new MongoClient(mongoUri, {
     serverSelectionTimeoutMS: Number(process.env.MONGODB_SERVER_SELECTION_TIMEOUT_MS || 10000)
