@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const { z } = require('zod');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +13,15 @@ const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI;
 const databaseName = process.env.MONGODB_DATABASE || 'breakcode';
 const jwtSecret = process.env.JWT_SECRET || 'fallback_secret_for_development_only';
+
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.ethereal.email',
+    port: process.env.SMTP_PORT || 587,
+    auth: {
+        user: process.env.SMTP_USER || 'ethereal_user',
+        pass: process.env.SMTP_PASS || 'ethereal_pass'
+    }
+});
 const mongoClient = mongoUri ? new MongoClient(mongoUri, {
     serverSelectionTimeoutMS: Number(process.env.MONGODB_SERVER_SELECTION_TIMEOUT_MS || 10000)
 }) : null;
@@ -150,8 +160,23 @@ app.post('/api/forgot-password/request', async (request, response) => {
             used: false
         });
 
+        const mailOptions = {
+            from: process.env.EMAIL_FROM || '"BreakCode Support" <noreply@breakcode.com>',
+            to: normalizedEmail,
+            subject: 'Your Password Reset OTP',
+            text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`,
+            html: `<p>Your OTP for password reset is: <b>${otp}</b></p><p>It is valid for 10 minutes.</p>`
+        };
+
+        try {
+            await transporter.sendMail(mailOptions);
+        } catch (emailError) {
+            console.error('Failed to send OTP email:', emailError);
+            return response.status(500).json({ message: 'Failed to send OTP email. Please try again later.' });
+        }
+
         console.log(`[development] OTP for ${normalizedEmail}: ${otp}`);
-        return response.json({ message: 'OTP generated. Check the server terminal in development.' });
+        return response.json({ message: 'OTP sent to your email.' });
     } catch (error) {
         if (error instanceof z.ZodError) {
             return response.status(400).json({ message: error.errors[0].message });
