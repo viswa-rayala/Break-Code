@@ -119,6 +119,7 @@
 
         if (response.ok) {
             localStorage.setItem('breakcodeUser', JSON.stringify(result.user));
+            localStorage.setItem('breakcodeToken', result.token);
             showSuccessPopup(result.message, 'dashboard.html');
             return;
         }

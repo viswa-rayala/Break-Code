@@ -163,21 +163,42 @@
     <div class="toast" id="toast" role="status"></div>
 
     <script>
-        const savedUser = JSON.parse(localStorage.getItem('breakcodeUser') || 'null');
-        if (!savedUser) {
+        const token = localStorage.getItem('breakcodeToken');
+        if (!token) {
             window.location.replace('login.html');
         }
 
-        const firstName = (savedUser?.name || 'Builder').trim().split(' ')[0];
-        document.getElementById('welcomeName').textContent = firstName;
-        document.getElementById('profileName').textContent = savedUser?.name || 'Student';
-        document.getElementById('userAvatar').textContent = firstName.slice(0, 2).toUpperCase();
-        document.getElementById('menuName').textContent = savedUser?.name || 'Student';
-        document.getElementById('menuEmail').textContent = savedUser?.email || 'student@example.com';
-        document.getElementById('menuAvatar').textContent = firstName.slice(0, 2).toUpperCase();
-        document.getElementById('panelName').textContent = savedUser?.name || 'Student';
-        document.getElementById('panelEmail').textContent = savedUser?.email || 'student@example.com';
-        document.getElementById('panelAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+        async function initDashboard() {
+            try {
+                const response = await fetch('/api/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Not authenticated');
+                }
+                
+                const { user: savedUser } = await response.json();
+                localStorage.setItem('breakcodeUser', JSON.stringify(savedUser));
+
+                const firstName = (savedUser?.name || 'Builder').trim().split(' ')[0];
+                document.getElementById('welcomeName').textContent = firstName;
+                document.getElementById('profileName').textContent = savedUser?.name || 'Student';
+                document.getElementById('userAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+                document.getElementById('menuName').textContent = savedUser?.name || 'Student';
+                document.getElementById('menuEmail').textContent = savedUser?.email || 'student@example.com';
+                document.getElementById('menuAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+                document.getElementById('panelName').textContent = savedUser?.name || 'Student';
+                document.getElementById('panelEmail').textContent = savedUser?.email || 'student@example.com';
+                document.getElementById('panelAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+            } catch (err) {
+                localStorage.removeItem('breakcodeToken');
+                localStorage.removeItem('breakcodeUser');
+                window.location.replace('login.html');
+            }
+        }
+        
+        initDashboard();
 
         const practiceLevels = [0, 1, 2, 0, 3, 2, 1, 0, 2, 4, 3, 1, 0, 2, 3, 1, 0, 0, 2, 4, 3, 2, 1, 0, 1, 2, 3, 4, 2, 1, 0, 0, 1, 3, 2, 4, 3, 2, 1, 0, 0, 2, 3, 1, 4, 3, 2, 0, 1, 2, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 3, 1, 0, 2, 3, 1, 0, 4, 3, 2, 1, 0, 2, 3, 4, 2, 1, 0, 1, 2, 3, 1, 0, 2, 4, 3].slice(0, 84);
         const heatmap = document.getElementById('practiceHeatmap');
@@ -263,6 +284,7 @@
         searchInput.addEventListener('input', filterCourses);
 
         document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.removeItem('breakcodeToken');
             localStorage.removeItem('breakcodeUser');
             window.location.href = 'login.html';
         });
