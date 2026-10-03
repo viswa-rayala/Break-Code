@@ -46,6 +46,7 @@
                 <div class="breadcrumb">Workspace <span>/</span> Learning hub</div>
                 <div class="topbar-actions">
                     <button class="icon-button" type="button" aria-label="Notifications">♧<span class="notification-dot"></span></button>
+                    <button class="icon-button" id="themeToggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme"><span id="themeIcon">☾</span></button>
                     <button class="profile-chip" id="profileButton" type="button" aria-expanded="false" aria-controls="profileMenu">
                         <span class="avatar" id="userAvatar">BC</span>
                         <span class="profile-name" id="profileName">Student</span>
@@ -57,7 +58,6 @@
                         <button class="menu-item" type="button" data-panel="trackingPanel"><span>◷</span> Daily practice <b>→</b></button>
                         <button class="menu-item" type="button" data-panel="certificationsPanel"><span>✧</span> Certifications <b>→</b></button>
                         <button class="menu-item" type="button" data-panel="settingsPanel"><span>⚙</span> Settings <b>→</b></button>
-                        <button class="menu-item theme-menu-item" id="themeToggle" type="button"><span id="themeIcon">☾</span> <span id="themeLabel">Dark theme</span><b>⌘</b></button>
                     </div>
                 </div>
             </header>
@@ -233,13 +233,16 @@
         panelBackdrop.addEventListener('click', (event) => { if (event.target === panelBackdrop) panelBackdrop.hidden = true; });
 
         const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
         const panelThemeToggle = document.getElementById('panelThemeToggle');
         function setTheme(theme) {
             document.documentElement.dataset.theme = theme;
             localStorage.setItem('breakcodeTheme', theme);
             const dark = theme === 'dark';
-            document.getElementById('themeLabel').textContent = dark ? 'Light theme' : 'Dark theme';
-            document.getElementById('themeIcon').textContent = dark ? '☀' : '☾';
+            const nextThemeLabel = dark ? 'Switch to light theme' : 'Switch to dark theme';
+            themeToggle.setAttribute('aria-label', nextThemeLabel);
+            themeToggle.title = nextThemeLabel;
+            themeIcon.textContent = dark ? '☀' : '☾';
         }
         setTheme(localStorage.getItem('breakcodeTheme') || 'light');
         function toggleTheme() { setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'); }
