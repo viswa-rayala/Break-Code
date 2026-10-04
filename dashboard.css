@@ -11,6 +11,7 @@ button { cursor: pointer; }
 .brand img { display: block; width: 180px; height: auto; }
 .main-nav { display: grid; gap: 7px; }
 .nav-link { align-items: center; border-radius: 9px; color: #718096; display: flex; font-size: 14px; font-weight: 600; gap: 13px; padding: 12px 14px; text-decoration: none; }
+.nav-link[hidden] { display: none; }
 .nav-link:hover, .nav-link.active { background: #eef4ff; color: var(--blue); }
 .nav-icon { font-size: 20px; font-weight: 400; line-height: 1; width: 20px; text-align: center; }
 .sidebar-footer { margin-top: auto; }
@@ -33,6 +34,7 @@ button { cursor: pointer; }
 .profile-name { color: #4c5a6d; font-size: 13px; font-weight: 600; }
 .profile-chevron { color: #9aa6b5; font-size: 18px; }
 .profile-menu { background: var(--white); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 16px 35px rgba(21, 39, 63, .14); min-width: 235px; padding: 8px; position: absolute; right: 52px; top: 62px; z-index: 4; }
+.announcement-banner { background: #e8f4ef; border: 1px solid #c6e5d6; border-radius: 7px; color: #256c4a; font-size: 12px; line-height: 1.5; margin-top: 18px; padding: 11px 15px; }
 .profile-menu[hidden] { display: none; }
 .profile-menu-header { align-items: center; border-bottom: 1px solid var(--line); display: flex; gap: 10px; padding: 9px 8px 13px; }
 .profile-menu-header strong, .profile-menu-header small { display: block; }.profile-menu-header strong { font-size: 12px; }.profile-menu-header small { color: var(--muted); font-size: 10px; margin-top: 3px; max-width: 155px; overflow: hidden; text-overflow: ellipsis; }
@@ -91,3 +93,5 @@ h1 { font-size: clamp(26px, 3vw, 39px); letter-spacing: -.04em; }
 [data-theme="dark"] .heat-cell.level-0 { background: #263646; }.heatmap-legend .level-1 { background: #28583f; }.heatmap-legend .level-2 { background: #31865a; }.heatmap-legend .level-3 { background: #36a568; }.heatmap-legend .level-4 { background: #62c98b; }
 .certificate-card { align-items: center; border: 1px solid var(--line); border-radius: 8px; display: flex; gap: 11px; margin-top: 11px; padding: 13px; }.certificate-icon { align-items: center; background: #e4f8ef; border-radius: 7px; color: #2c9b69; display: flex; font-size: 17px; height: 35px; justify-content: center; width: 35px; }.certificate-icon.coral { background: #fff0e9; color: #db7455; }.certificate-icon.muted-icon { background: #f1f3f5; color: #a0aab7; }.certificate-card strong, .certificate-card span { display: block; }.certificate-card strong { font-size: 11px; }.certificate-card div span { color: var(--muted); font-size: 9px; margin-top: 4px; }.certificate-download { background: none; border: 1px solid #cbd6e2; border-radius: 5px; color: var(--blue); font-size: 17px; height: 27px; line-height: 1; margin-left: auto; width: 27px; }.certificate-download:hover { background: #eef4ff; }.certificate-card.locked { opacity: .62; }.certificate-lock { color: var(--muted); font-size: 9px; margin-left: auto; white-space: nowrap; }
 [data-theme="dark"] .certificate-icon.muted-icon { background: #2a3848; }.certificate-download { border-color: #536477; }
+[data-theme="dark"] .announcement-banner { background: #183c30; border-color: #285a46; color: #a9e5c2; }
+.log-practice-button { margin-top: 19px; }

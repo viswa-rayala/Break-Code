@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreakCode Admin</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-page">
+    <header class="admin-topbar">
+        <a class="admin-brand" href="dashboard.html" aria-label="BreakCode dashboard"><img src="logo.svg" alt="BreakCode"></a>
+        <div class="admin-topbar-actions">
+            <a class="admin-back-link" href="dashboard.html">← Learner dashboard</a>
+            <button class="icon-button" id="adminThemeToggle" type="button" aria-label="Switch to dark theme" title="Switch theme">☾</button>
+            <button class="admin-logout" id="adminLogout" type="button">Log out</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <section class="admin-heading">
+            <div><p class="eyebrow">BREAKCODE / ADMINISTRATION</p><h1>Content studio</h1><p>Manage the learning catalog and the message shown to learners.</p></div>
+            <button class="admin-primary" id="addCourseButton" type="button"><span aria-hidden="true">+</span> Add course</button>
+        </section>
+
+        <section class="admin-metrics" aria-label="Platform overview">
+            <div><span>Courses</span><strong id="courseCount">—</strong></div>
+            <div><span>Published</span><strong id="publishedCount">—</strong></div>
+            <div><span>Learners</span><strong id="learnerCount">—</strong></div>
+            <div><span>Enrollments</span><strong id="enrollmentCount">—</strong></div>
+        </section>
+
+        <section class="admin-section" aria-labelledby="catalogTitle">
+            <div class="admin-section-heading">
+                <div><p class="eyebrow">LEARNING CONTENT</p><h2 id="catalogTitle">Course catalog</h2></div>
+                <label class="admin-search"><span aria-hidden="true">⌕</span><input id="courseSearch" type="search" placeholder="Find a course" aria-label="Find a course"></label>
+            </div>
+            <div class="admin-course-list" id="courseList" aria-live="polite"></div>
+            <p class="admin-empty" id="emptyCourses" hidden>No courses yet. Add the first course to the catalog.</p>
+        </section>
+
+        <section class="admin-section announcement-section" aria-labelledby="announcementTitle">
+            <div class="admin-section-heading"><div><p class="eyebrow">LEARNER DASHBOARD</p><h2 id="announcementTitle">Announcement</h2></div></div>
+            <form id="announcementForm" class="announcement-form">
+                <label for="announcementInput">Dashboard message <span>Optional · up to 220 characters</span></label>
+                <textarea id="announcementInput" maxlength="220" rows="3" placeholder="Share a short update with learners"></textarea>
+                <div class="announcement-form-footer"><span id="announcementLength">0 / 220</span><button class="admin-primary" type="submit">Save announcement</button></div>
+            </form>
+        </section>
+
+        <p class="admin-status" id="adminStatus" role="status" aria-live="polite"></p>
+    </main>
+
+    <dialog class="course-dialog" id="courseDialog" aria-labelledby="courseDialogTitle">
+        <form id="courseForm">
+            <div class="dialog-heading"><div><p class="eyebrow">CATALOG EDITOR</p><h2 id="courseDialogTitle">Add course</h2></div><button class="dialog-close" id="closeCourseDialog" type="button" aria-label="Close editor">×</button></div>
+            <input type="hidden" id="courseId">
+            <label class="admin-field">Course title<input id="courseTitle" name="title" required minlength="3" maxlength="80"></label>
+            <label class="admin-field">Description<textarea id="courseDescription" name="description" required minlength="10" maxlength="240" rows="3"></textarea></label>
+            <div class="admin-field-grid">
+                <label class="admin-field">Category<select id="courseCategory" name="category"><option value="web">Web development</option><option value="data">Data &amp; AI</option><option value="tools">Tools</option></select></label>
+                <label class="admin-field">Level<select id="courseLevel" name="level"><option>Beginner</option><option>Intermediate</option><option>All levels</option></select></label>
+                <label class="admin-field">Hours<input id="courseHours" name="hours" type="number" min="1" max="200" required></label>
+                <label class="admin-field">Lessons<input id="courseLessons" name="lessons" type="number" min="1" max="500" required></label>
+            </div>
+            <label class="publish-option"><input id="coursePublished" type="checkbox" checked><span><strong>Published</strong><small>Visible in the learner catalog</small></span></label>
+            <div class="dialog-actions"><button class="admin-secondary" id="cancelCourseEdit" type="button">Cancel</button><button class="admin-primary" type="submit">Save course</button></div>
+        </form>
+    </dialog>
+    <script src="admin.js" defer></script>
+</body>
+</html>

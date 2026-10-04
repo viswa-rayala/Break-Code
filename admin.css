@@ -1,0 +1,87 @@
+.admin-page { min-height: 100vh; }
+.admin-topbar { align-items: center; background: var(--white); border-bottom: 1px solid var(--line); display: flex; height: 72px; justify-content: space-between; padding: 0 max(28px, calc((100vw - 1280px) / 2)); }
+.admin-brand img { display: block; height: auto; width: 162px; }
+.admin-topbar-actions { align-items: center; display: flex; gap: 22px; }
+.admin-back-link { color: var(--muted); font-size: 12px; font-weight: 600; text-decoration: none; }
+.admin-back-link:hover { color: var(--blue); }
+.admin-logout { background: transparent; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 12px; padding: 9px 13px; }
+.admin-main { margin: 0 auto; max-width: 1280px; padding: 45px 30px 80px; }
+.admin-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 27px; }
+.admin-heading h1 { font-size: 35px; }
+.admin-heading p:not(.eyebrow) { color: var(--muted); font-size: 13px; margin: 9px 0 0; }
+.admin-primary, .admin-secondary { align-items: center; border: 0; border-radius: 6px; display: inline-flex; font-size: 12px; font-weight: 700; gap: 8px; justify-content: center; min-height: 39px; padding: 0 15px; }
+.admin-primary { background: var(--blue); color: #fff; }
+.admin-primary:hover { background: #174fc2; }
+.admin-primary span { font-size: 19px; font-weight: 400; }
+.admin-secondary { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+.admin-secondary:hover { background: var(--canvas); }
+.admin-metrics { background: var(--white); border: 1px solid var(--line); border-radius: 8px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 35px; }
+.admin-metrics div { padding: 18px 22px; }
+.admin-metrics div + div { border-left: 1px solid var(--line); }
+.admin-metrics span, .admin-metrics strong { display: block; }
+.admin-metrics span { color: var(--muted); font-size: 11px; }
+.admin-metrics strong { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-top: 8px; }
+.admin-section { border-top: 1px solid var(--line); padding: 27px 0 31px; }
+.admin-section-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 17px; }
+.admin-section-heading h2 { font-size: 23px; }
+.admin-search { align-items: center; background: var(--white); border: 1px solid var(--line); border-radius: 6px; color: var(--muted); display: flex; gap: 9px; padding: 8px 11px; width: min(100%, 250px); }
+.admin-search input { background: transparent; border: 0; color: var(--ink); font-size: 12px; min-width: 0; outline: 0; width: 100%; }
+.admin-course-list { display: grid; }
+.admin-course-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 18px; grid-template-columns: minmax(200px, 1fr) 140px 100px 150px; min-height: 78px; padding: 13px 5px; }
+.admin-course-info { min-width: 0; }
+.admin-course-info strong, .admin-course-info span { display: block; }
+.admin-course-info strong { font-size: 13px; overflow-wrap: anywhere; }
+.admin-course-info span { color: var(--muted); font-size: 11px; margin-top: 5px; }
+.admin-course-category, .publish-state { color: var(--muted); font-size: 11px; }
+.publish-state::before { background: #aeb8c4; border-radius: 50%; content: ''; display: inline-block; height: 7px; margin-right: 7px; width: 7px; }
+.publish-state.is-published::before { background: #35a568; }
+.admin-course-actions { display: flex; gap: 8px; justify-content: end; }
+.admin-course-actions button { background: transparent; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); font-size: 11px; min-height: 31px; padding: 0 10px; }
+.admin-course-actions button:hover { background: var(--canvas); }
+.admin-course-actions .delete-course:hover { border-color: #edc4bf; color: #c04438; }
+.admin-empty { color: var(--muted); font-size: 13px; padding: 30px 5px; }
+.announcement-section { margin-top: 8px; }
+.announcement-form { background: var(--white); border: 1px solid var(--line); border-radius: 8px; max-width: 720px; padding: 20px; }
+.announcement-form > label { display: flex; flex-direction: column; font-size: 12px; font-weight: 700; gap: 5px; }
+.announcement-form > label span { color: var(--muted); font-size: 10px; font-weight: 400; }
+.announcement-form textarea, .admin-field input, .admin-field textarea, .admin-field select { background: var(--canvas); border: 1px solid var(--line); border-radius: 5px; color: var(--ink); font: inherit; font-size: 12px; outline: 0; padding: 10px 11px; width: 100%; }
+.announcement-form textarea { margin-top: 10px; resize: vertical; }
+.announcement-form textarea:focus, .admin-field :is(input, textarea, select):focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .12); }
+.announcement-form-footer { align-items: center; color: var(--muted); display: flex; font-size: 10px; justify-content: space-between; margin-top: 11px; }
+.admin-status { color: var(--muted); font-size: 12px; min-height: 20px; }
+.course-dialog { background: var(--white); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 22px 70px rgba(10, 24, 42, .25); color: var(--ink); max-height: min(90vh, 760px); max-width: 600px; overflow: auto; padding: 27px; width: calc(100% - 32px); }
+.course-dialog::backdrop { background: rgba(19, 31, 48, .56); }
+.dialog-heading { align-items: start; display: flex; justify-content: space-between; margin-bottom: 21px; }
+.dialog-heading h2 { font-size: 23px; }
+.dialog-close { background: var(--canvas); border: 0; border-radius: 50%; color: var(--muted); font-size: 21px; height: 31px; line-height: 1; width: 31px; }
+.admin-field { display: grid; font-size: 11px; font-weight: 700; gap: 7px; margin-bottom: 14px; }
+.admin-field textarea { resize: vertical; }
+.admin-field-grid { display: grid; gap: 0 13px; grid-template-columns: 1fr 1fr; }
+.publish-option { align-items: center; border-top: 1px solid var(--line); display: flex; gap: 10px; margin-top: 4px; padding: 15px 0; }
+.publish-option input { accent-color: var(--blue); height: 16px; width: 16px; }
+.publish-option strong, .publish-option small { display: block; }
+.publish-option strong { font-size: 11px; }
+.publish-option small { color: var(--muted); font-size: 10px; margin-top: 4px; }
+.dialog-actions { border-top: 1px solid var(--line); display: flex; gap: 9px; justify-content: end; padding-top: 16px; }
+[data-theme="dark"] .admin-course-actions button { color: var(--ink); }
+@media (max-width: 720px) {
+    .admin-topbar { height: 62px; padding: 0 17px; }
+    .admin-brand img { width: 130px; }
+    .admin-topbar-actions { gap: 11px; }
+    .admin-back-link { font-size: 0; }
+    .admin-back-link::before { content: '← Dashboard'; font-size: 11px; }
+    .admin-main { padding: 31px 17px 60px; }
+    .admin-heading { align-items: start; flex-direction: column; gap: 18px; }
+    .admin-heading h1 { font-size: 30px; }
+    .admin-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .admin-metrics div:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+    .admin-metrics div:nth-child(4) { border-top: 1px solid var(--line); }
+    .admin-section-heading { align-items: start; flex-direction: column; gap: 15px; }
+    .admin-search { width: 100%; }
+    .admin-course-row { gap: 8px; grid-template-columns: minmax(0, 1fr) auto; padding: 15px 3px; }
+    .admin-course-category { grid-column: 1; }
+    .publish-state { grid-column: 1; }
+    .admin-course-actions { grid-column: 2; grid-row: 1 / span 3; }
+    .admin-course-actions button { padding: 0 8px; }
+    .admin-field-grid { grid-template-columns: 1fr 1fr; }
+}

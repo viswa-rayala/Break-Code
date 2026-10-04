@@ -29,6 +29,9 @@
                 <a class="nav-link" href="#explore">
                     <span class="nav-icon">⌕</span> Explore
                 </a>
+                <a class="nav-link" id="adminNavLink" href="admin.html" hidden>
+                    <span class="nav-icon">⚙</span> Admin
+                </a>
             </nav>
             <div class="sidebar-footer">
                 <div class="sidebar-note">
@@ -62,31 +65,33 @@
                 </div>
             </header>
 
+            <div class="announcement-banner" id="announcementBanner" hidden></div>
+
             <section class="welcome-section">
                 <div>
-                    <p class="eyebrow">WEDNESDAY, SEPTEMBER 16</p>
+                    <p class="eyebrow" id="todayLabel"></p>
                     <h1>Good morning, <span id="welcomeName">builder</span>.</h1>
                     <p class="welcome-copy">Pick up where you left off or find a new skill to sharpen today.</p>
                 </div>
-                <div class="streak-badge"><span>✦</span><strong>4 day streak</strong><small>Keep it going</small></div>
+                <div class="streak-badge"><span>✦</span><strong id="streakValue">0 day streak</strong><small id="streakHint">Start a practice session</small></div>
             </section>
 
             <section class="learning-focus" id="progress" aria-label="Continue learning">
                 <div class="focus-copy">
                     <p class="eyebrow accent-eyebrow">CONTINUE LEARNING</p>
-                    <h2>JavaScript foundations</h2>
-                    <p>Functions, arrays and the logic behind interactive experiences.</p>
-                    <div class="progress-row"><span>64% complete</span><span>8 of 12 lessons</span></div>
-                    <div class="progress-track"><span style="width: 64%"></span></div>
-                    <button class="primary-button course-action" type="button" data-course="JavaScript foundations">Continue course <span>→</span></button>
+                    <h2 id="featuredCourseTitle">Choose your next course</h2>
+                    <p id="featuredCourseDescription">Explore the catalog and start building a new skill.</p>
+                    <div class="progress-row"><span id="featuredProgressText">Not started</span><span id="featuredLessonText">0 lessons</span></div>
+                    <div class="progress-track"><span id="featuredProgressBar" style="width: 0%"></span></div>
+                    <button class="primary-button" id="continueLearningButton" type="button" hidden>Start course <span>→</span></button>
                 </div>
                 <div class="focus-art" aria-hidden="true"><span>const</span><strong>create</strong><span>() =&gt; {</span><em>breakCode</em><span>}</span></div>
             </section>
 
             <section class="stats-grid" aria-label="Learning summary">
-                <div class="stat-item"><span class="stat-icon blue">◷</span><div><strong>12.5h</strong><span>Learning time</span></div></div>
-                <div class="stat-item"><span class="stat-icon orange">✓</span><div><strong>18</strong><span>Lessons completed</span></div></div>
-                <div class="stat-item"><span class="stat-icon green">⌁</span><div><strong>3</strong><span>Courses in progress</span></div></div>
+                <div class="stat-item"><span class="stat-icon blue">◷</span><div><strong id="learningHours">0h</strong><span>Learning time</span></div></div>
+                <div class="stat-item"><span class="stat-icon orange">✓</span><div><strong id="lessonsCompleted">0</strong><span>Lessons completed</span></div></div>
+                <div class="stat-item"><span class="stat-icon green">⌁</span><div><strong id="coursesInProgress">0</strong><span>Courses in progress</span></div></div>
             </section>
 
             <section class="courses-section" id="courses">
@@ -100,32 +105,7 @@
                     <button class="category-tab" type="button" data-category="data">Data &amp; AI</button>
                     <button class="category-tab" type="button" data-category="tools">Tools</button>
                 </div>
-                <div class="course-grid" id="courseGrid">
-                    <article class="course-card" data-category="web" data-title="HTML and CSS essentials">
-                        <div class="course-visual visual-coral"><span class="visual-label">&lt;/&gt;</span><span class="visual-lines">────────<br>──────</span></div>
-                        <div class="course-body"><span class="course-level">BEGINNER · 6 HOURS</span><h3>HTML &amp; CSS essentials</h3><p>Build polished pages from the ground up.</p><div class="course-footer"><span class="course-meta">24 lessons</span><button class="text-button course-action" type="button" data-course="HTML & CSS essentials">Start course <span>→</span></button></div></div>
-                    </article>
-                    <article class="course-card" data-category="web" data-title="React in practice">
-                        <div class="course-visual visual-blue"><span class="react-mark">✣</span><span class="visual-caption">COMPONENT<br>THINKING</span></div>
-                        <div class="course-body"><span class="course-level">INTERMEDIATE · 9 HOURS</span><h3>React in practice</h3><p>Turn ideas into fast, flexible interfaces.</p><div class="course-footer"><span class="course-meta">31 lessons</span><button class="text-button course-action" type="button" data-course="React in practice">Start course <span>→</span></button></div></div>
-                    </article>
-                    <article class="course-card" data-category="data" data-title="Python for data thinking">
-                        <div class="course-visual visual-lime"><span class="python-mark">Py</span><span class="visual-caption">MAKE DATA<br>MAKE SENSE</span></div>
-                        <div class="course-body"><span class="course-level">BEGINNER · 7 HOURS</span><h3>Python for data thinking</h3><p>Learn to explore, shape and explain data.</p><div class="course-footer"><span class="course-meta">20 lessons</span><button class="text-button course-action" type="button" data-course="Python for data thinking">Start course <span>→</span></button></div></div>
-                    </article>
-                    <article class="course-card" data-category="tools" data-title="Git and GitHub workflow">
-                        <div class="course-visual visual-navy"><span class="git-mark">⎇</span><span class="visual-caption">SHIP WITH<br>CONFIDENCE</span></div>
-                        <div class="course-body"><span class="course-level">ALL LEVELS · 3 HOURS</span><h3>Git &amp; GitHub workflow</h3><p>Make version control part of your rhythm.</p><div class="course-footer"><span class="course-meta">12 lessons</span><button class="text-button course-action" type="button" data-course="Git & GitHub workflow">Start course <span>→</span></button></div></div>
-                    </article>
-                    <article class="course-card" data-category="data" data-title="Machine learning basics">
-                        <div class="course-visual visual-gold"><span class="visual-label">01</span><span class="visual-lines">● ● ●<br>● ● ●</span></div>
-                        <div class="course-body"><span class="course-level">INTERMEDIATE · 10 HOURS</span><h3>Machine learning basics</h3><p>Understand models without the mystery.</p><div class="course-footer"><span class="course-meta">28 lessons</span><button class="text-button course-action" type="button" data-course="Machine learning basics">Start course <span>→</span></button></div></div>
-                    </article>
-                    <article class="course-card" data-category="tools" data-title="SQL from zero">
-                        <div class="course-visual visual-teal"><span class="visual-label">SELECT</span><span class="visual-lines">* FROM<br>knowledge</span></div>
-                        <div class="course-body"><span class="course-level">BEGINNER · 4 HOURS</span><h3>SQL from zero</h3><p>Ask better questions of your data.</p><div class="course-footer"><span class="course-meta">15 lessons</span><button class="text-button course-action" type="button" data-course="SQL from zero">Start course <span>→</span></button></div></div>
-                    </article>
-                </div>
+                <div class="course-grid" id="courseGrid"></div>
                 <p class="empty-state hidden" id="emptyState">No courses match that search.</p>
             </section>
         </main>
@@ -143,8 +123,9 @@
             </div>
             <div class="panel-content" id="trackingPanel" hidden>
                 <p class="eyebrow">PRACTICE RHYTHM</p><h2>Daily practice</h2><p class="panel-intro">A small session every day adds up quickly. Your goal is 30 minutes.</p>
-                <div class="tracking-stats"><div><strong>4</strong><span>day streak</span></div><div><strong>126</strong><span>minutes this week</span></div><div><strong>5</strong><span>day goal</span></div></div>
-                <h3 class="panel-subtitle">This week</h3><div class="practice-week"><button class="practice-day complete" type="button">M<small>24m</small></button><button class="practice-day complete" type="button">T<small>31m</small></button><button class="practice-day complete" type="button">W<small>28m</small></button><button class="practice-day complete" type="button">T<small>43m</small></button><button class="practice-day" type="button">F<small>Start</small></button><button class="practice-day" type="button">S<small>Start</small></button><button class="practice-day" type="button">S<small>Start</small></button></div>
+                <div class="tracking-stats"><div><strong id="practiceStreak">0</strong><span>day streak</span></div><div><strong id="practiceWeekMinutes">0</strong><span>minutes this week</span></div><div><strong>30m</strong><span>daily target</span></div></div>
+                <h3 class="panel-subtitle">This week</h3><div class="practice-week" id="practiceWeek"></div>
+                <button class="outline-button log-practice-button" id="logPracticeButton" type="button">Log 30 minutes</button>
             </div>
             <div class="panel-content" id="certificationsPanel" hidden>
                 <p class="eyebrow">YOUR ACHIEVEMENTS</p><h2>Certifications</h2><p class="panel-intro">Proof of the skills you have built on BreakCode.</p>
@@ -168,6 +149,120 @@
             window.location.replace('login.html');
         }
 
+        const toast = document.getElementById('toast');
+        const courseGrid = document.getElementById('courseGrid');
+        const tabs = [...document.querySelectorAll('.category-tab')];
+        const searchInput = document.getElementById('courseSearch');
+        let selectedCategory = 'all';
+        let dashboardCourses = [];
+
+        async function apiRequest(url, options = {}) {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+                    ...options.headers
+                }
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || 'The request could not be completed.');
+            return result;
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            window.setTimeout(() => toast.classList.remove('show'), 2600);
+        }
+
+        function updateFeaturedCourse() {
+            const course = dashboardCourses.find((item) => item.enrolled && item.lessonsCompleted < item.lessons) || dashboardCourses[0];
+            const actionButton = document.getElementById('continueLearningButton');
+            if (!course) {
+                document.getElementById('featuredCourseTitle').textContent = 'No published courses yet';
+                document.getElementById('featuredCourseDescription').textContent = 'Check back soon for new learning paths.';
+                actionButton.hidden = true;
+                return;
+            }
+            const percentage = Math.round((course.lessonsCompleted / course.lessons) * 100);
+            document.getElementById('featuredCourseTitle').textContent = course.title;
+            document.getElementById('featuredCourseDescription').textContent = course.description;
+            document.getElementById('featuredProgressText').textContent = `${percentage}% complete`;
+            document.getElementById('featuredLessonText').textContent = `${course.lessonsCompleted} of ${course.lessons} lessons`;
+            document.getElementById('featuredProgressBar').style.width = `${percentage}%`;
+            actionButton.textContent = course.enrolled ? 'Complete next lesson →' : 'Start course →';
+            actionButton.dataset.courseId = course.id;
+            actionButton.hidden = course.lessonsCompleted >= course.lessons;
+        }
+
+        function renderCourseCards() {
+            const accents = { web: 'visual-blue', data: 'visual-lime', tools: 'visual-coral' };
+            const marks = { web: '</>', data: 'Py', tools: '⌘' };
+            courseGrid.replaceChildren();
+            dashboardCourses.forEach((course) => {
+                const card = document.createElement('article');
+                card.className = 'course-card';
+                card.dataset.category = course.category;
+                card.dataset.title = course.title.toLowerCase();
+
+                const visual = document.createElement('div');
+                visual.className = `course-visual ${accents[course.category]}`;
+                const mark = document.createElement('span');
+                mark.className = 'visual-label';
+                mark.textContent = marks[course.category];
+                visual.append(mark);
+
+                const body = document.createElement('div');
+                body.className = 'course-body';
+                const level = document.createElement('span');
+                level.className = 'course-level';
+                level.textContent = `${course.level.toUpperCase()} · ${course.hours} HOURS`;
+                const title = document.createElement('h3');
+                title.textContent = course.title;
+                const description = document.createElement('p');
+                description.textContent = course.description;
+                const footer = document.createElement('div');
+                footer.className = 'course-footer';
+                const progress = document.createElement('span');
+                progress.className = 'course-meta';
+                progress.textContent = course.enrolled ? `${course.lessonsCompleted} / ${course.lessons} lessons` : `${course.lessons} lessons`;
+                const action = document.createElement('button');
+                action.className = 'text-button';
+                action.type = 'button';
+                action.dataset.courseAction = course.id;
+                action.textContent = course.enrolled ? (course.lessonsCompleted >= course.lessons ? 'Completed' : 'Continue →') : 'Start course →';
+                action.disabled = course.enrolled && course.lessonsCompleted >= course.lessons;
+                footer.append(progress, action);
+                body.append(level, title, description, footer);
+                card.append(visual, body);
+                courseGrid.append(card);
+            });
+            filterCourses();
+            updateFeaturedCourse();
+        }
+
+        function renderDashboard(data) {
+            dashboardCourses = data.courses;
+            document.getElementById('learningHours').textContent = `${data.stats.learningHours}h`;
+            document.getElementById('lessonsCompleted').textContent = data.stats.completedLessons;
+            document.getElementById('coursesInProgress').textContent = data.stats.coursesInProgress;
+            const banner = document.getElementById('announcementBanner');
+            banner.textContent = data.announcement;
+            banner.hidden = !data.announcement;
+            const days = data.practice || [];
+            document.getElementById('streakValue').textContent = `${data.streak || 0} day streak`;
+            document.getElementById('streakHint').textContent = data.streak ? 'Keep it going' : 'Start a practice session';
+            renderHeatmap(days);
+            renderPracticeWeek(days, data.streak || 0);
+            renderCourseCards();
+        }
+
+        async function loadDashboard() {
+            const data = await apiRequest('/api/dashboard');
+            renderDashboard(data);
+        }
+
         async function initDashboard() {
             try {
                 const response = await fetch('/api/me', {
@@ -180,6 +275,8 @@
                 
                 const { user: savedUser } = await response.json();
                 localStorage.setItem('breakcodeUser', JSON.stringify(savedUser));
+                document.getElementById('adminNavLink').hidden = !savedUser.isAdmin;
+                document.getElementById('todayLabel').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }).toUpperCase();
 
                 const firstName = (savedUser?.name || 'Builder').trim().split(' ')[0];
                 document.getElementById('welcomeName').textContent = firstName;
@@ -191,6 +288,7 @@
                 document.getElementById('panelName').textContent = savedUser?.name || 'Student';
                 document.getElementById('panelEmail').textContent = savedUser?.email || 'student@example.com';
                 document.getElementById('panelAvatar').textContent = firstName.slice(0, 2).toUpperCase();
+                await loadDashboard();
             } catch (err) {
                 localStorage.removeItem('breakcodeToken');
                 localStorage.removeItem('breakcodeUser');
@@ -200,18 +298,51 @@
         
         initDashboard();
 
-        const practiceLevels = [0, 1, 2, 0, 3, 2, 1, 0, 2, 4, 3, 1, 0, 2, 3, 1, 0, 0, 2, 4, 3, 2, 1, 0, 1, 2, 3, 4, 2, 1, 0, 0, 1, 3, 2, 4, 3, 2, 1, 0, 0, 2, 3, 1, 4, 3, 2, 0, 1, 2, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 3, 1, 0, 2, 3, 1, 0, 4, 3, 2, 1, 0, 2, 3, 4, 2, 1, 0, 1, 2, 3, 1, 0, 2, 4, 3].slice(0, 84);
-        const heatmap = document.getElementById('practiceHeatmap');
-        practiceLevels.forEach((level, index) => {
-            const cell = document.createElement('span');
-            const daysAgo = practiceLevels.length - index - 1;
-            const date = new Date();
-            date.setDate(date.getDate() - daysAgo);
-            cell.className = `heat-cell level-${level}`;
-            cell.title = `${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}: ${level === 0 ? 'No practice' : `${level * 15} minutes`}`;
-            cell.setAttribute('aria-label', cell.title);
-            heatmap.appendChild(cell);
-        });
+        function renderHeatmap(activity) {
+            const heatmap = document.getElementById('practiceHeatmap');
+            const minutesByDate = new Map(activity.map((item) => [item.date, item.minutes]));
+            heatmap.replaceChildren();
+            for (let daysAgo = 83; daysAgo >= 0; daysAgo -= 1) {
+                const date = new Date();
+                date.setUTCHours(0, 0, 0, 0);
+                date.setUTCDate(date.getUTCDate() - daysAgo);
+                const dateKey = date.toISOString().slice(0, 10);
+                const minutes = minutesByDate.get(dateKey) || 0;
+                const cell = document.createElement('span');
+                const level = minutes === 0 ? 0 : Math.min(4, Math.ceil(minutes / 15));
+                cell.className = `heat-cell level-${level}`;
+                cell.title = `${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}: ${minutes ? `${minutes} minutes` : 'No practice'}`;
+                cell.setAttribute('aria-label', cell.title);
+                heatmap.append(cell);
+            }
+        }
+
+        function renderPracticeWeek(activity, streak) {
+            const week = document.getElementById('practiceWeek');
+            const minutesByDate = new Map(activity.map((item) => [item.date, item.minutes]));
+            const today = new Date();
+            today.setUTCHours(0, 0, 0, 0);
+            const weekStart = new Date(today);
+            weekStart.setUTCDate(today.getUTCDate() - ((today.getUTCDay() + 6) % 7));
+            let weekMinutes = 0;
+            week.replaceChildren();
+            for (let index = 0; index < 7; index += 1) {
+                const date = new Date(weekStart);
+                date.setUTCDate(weekStart.getUTCDate() + index);
+                const dateKey = date.toISOString().slice(0, 10);
+                const minutes = minutesByDate.get(dateKey) || 0;
+                weekMinutes += minutes;
+                const day = document.createElement('div');
+                day.className = `practice-day${minutes ? ' complete' : ''}`;
+                day.textContent = date.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 1);
+                const detail = document.createElement('small');
+                detail.textContent = minutes ? `${minutes}m` : '—';
+                day.append(detail);
+                week.append(day);
+            }
+            document.getElementById('practiceStreak').textContent = streak;
+            document.getElementById('practiceWeekMinutes').textContent = weekMinutes;
+        }
 
         const profileButton = document.getElementById('profileButton');
         const profileMenu = document.getElementById('profileMenu');
@@ -255,23 +386,10 @@
             window.setTimeout(() => toast.classList.remove('show'), 2600);
         }));
 
-        const toast = document.getElementById('toast');
-        document.querySelectorAll('.course-action').forEach((button) => {
-            button.addEventListener('click', () => {
-                toast.textContent = `${button.dataset.course} is ready when you are.`;
-                toast.classList.add('show');
-                window.setTimeout(() => toast.classList.remove('show'), 2600);
-            });
-        });
-
-        const courseCards = [...document.querySelectorAll('.course-card')];
-        const tabs = [...document.querySelectorAll('.category-tab')];
-        const searchInput = document.getElementById('courseSearch');
-        let selectedCategory = 'all';
         function filterCourses() {
             const query = searchInput.value.toLowerCase().trim();
             let visibleCount = 0;
-            courseCards.forEach((card) => {
+            courseGrid.querySelectorAll('.course-card').forEach((card) => {
                 const matchesCategory = selectedCategory === 'all' || card.dataset.category === selectedCategory;
                 const matchesSearch = card.dataset.title.toLowerCase().includes(query);
                 card.hidden = !(matchesCategory && matchesSearch);
@@ -285,6 +403,35 @@
             filterCourses();
         }));
         searchInput.addEventListener('input', filterCourses);
+
+        document.getElementById('logPracticeButton').addEventListener('click', async () => {
+            try {
+                const result = await apiRequest('/api/practice', { method: 'POST', body: JSON.stringify({ minutes: 30 }) });
+                await loadDashboard();
+                showToast(result.message);
+            } catch (error) {
+                showToast(error.message);
+            }
+        });
+
+        async function takeCourseAction(courseId) {
+            try {
+                const course = dashboardCourses.find((item) => item.id === courseId);
+                if (!course) return;
+                const action = course.enrolled ? 'progress' : 'enroll';
+                await apiRequest(`/api/courses/${courseId}/${action}`, { method: 'POST' });
+                await loadDashboard();
+                showToast(action === 'enroll' ? `${course.title} added to your learning.` : 'Lesson progress saved.');
+            } catch (error) {
+                showToast(error.message);
+            }
+        }
+
+        courseGrid.addEventListener('click', (event) => {
+            const action = event.target.closest('[data-course-action]');
+            if (action) takeCourseAction(action.dataset.courseAction);
+        });
+        document.getElementById('continueLearningButton').addEventListener('click', (event) => takeCourseAction(event.currentTarget.dataset.courseId));
 
         document.getElementById('logoutButton').addEventListener('click', () => {
             localStorage.removeItem('breakcodeToken');
