@@ -1,189 +1,172 @@
 # BreakCode
 
-A student project built to practice full-stack web development with authentication, protected routes, and a dashboard UI.
+BreakCode is a full-stack learning platform built with Node.js, Express, MongoDB, and static front-end pages. It includes authentication, course catalog management, learner progress tracking, a practice streak dashboard, and an allowlisted admin panel for content updates.
 
-## Live Demo
+## Live demo
 
 https://break-code.onrender.com
 
-This project includes:
+## What this app includes
 
-- Signup and login flow
-- Password reset using OTP
-- MongoDB-backed user storage
-- Responsive learning dashboard
-- Simple deployment-ready Node.js setup
+- Sign up and login flow with password hashing
+- Password reset with OTP and email delivery via Resend
+- MongoDB-backed user, course, enrollment, and practice tracking
+- Learner dashboard with course cards, progress state, announcements, and activity heatmap
+- Admin content studio for creating, editing, publishing, and deleting courses
+- Admin dashboard announcement editor for learner-facing updates
+- Responsive HTML/CSS/JS interface for desktop and mobile layouts
 
-## Project Goal
-
-BreakCode is a learning platform-inspired app created for practicing authentication, backend APIs, database integration, and front-end UI design.
-
-It is a beginner-to-intermediate project and can be updated and improved over time as skills grow.
-
-## Tech Stack
+## Tech stack
 
 - Node.js
 - Express
 - MongoDB Atlas
+- JWT authentication
 - bcryptjs
-- HTML
-- CSS
-- JavaScript
+- Zod validation
+- Resend for email delivery
+- HTML, CSS, and JavaScript
 
-## Features
+## Project structure
 
-- User registration
-- User login
- - MongoDB-backed course catalog, enrollments, lesson progress, and practice history
- - Allowlisted admin workspace for course publishing and dashboard announcements
-- Mobile responsive design
+- `server.js` — backend server, database setup, auth, and API routes
+- `dashboard.html` — learner dashboard UI
+- `dashboard.css` — learner dashboard styling
+- `admin.html` — admin page
+- `admin.js` — admin client-side logic
+- `admin.css` — admin styling
+- `login.html`, `signup.html`, `forgot-password.html` — auth pages
+- `logo.svg`, `favicon.svg` — branding assets
+- `.env.example` — reference for required environment variables
+- `render.yaml` — Render deployment configuration
 
-## Project Structure
+## Features in detail
 
-- `server.js` — backend server and routes
-- `login.html` — login page
-- `signup.html` — signup page
-- `forgot-password.html` — password recovery flow
-- `dashboard.html` — user dashboard
-    ADMIN_EMAILS=admin@example.com
-- `dashboard.css` — dashboard styling
-- `login.css` — authentication page styling
-- `.env` — local environment variables
-- `.env.example` — environment variable template
+### Learner experience
 
-## Local Setup
- - `admin.html` — administrator content studio
- - `admin.js` / `admin.css` — admin workspace behavior and styling
-1. Clone the project:
+- Browse published courses by category and search terms
+- Enroll in any available course
+- Track lessons completed and learning progress
+- Log practice sessions and view streak data
+- Receive dashboard announcements from admins
+- Access a profile panel with activity tracking information
+
+### Admin experience
+
+- Admin access is controlled by `ADMIN_EMAILS`
+- Admins can view overall metrics for courses, learners, and enrollments
+- Admins can add new courses with title, description, category, level, lesson count, and publication state
+- Admins can edit or delete existing courses
+- Admins can publish or hide course content from the learner catalog
+- Admins can update the dashboard banner shown to all learners
+
+## Local setup
+
+1. Install dependencies:
 
    ```bash
- - `GET /api/dashboard` → Loads the signed-in learner's catalog and progress
- - `POST /api/courses/:courseId/enroll` → Starts a course
- - `POST /api/courses/:courseId/progress` → Records the next completed lesson
- - `POST /api/practice` → Logs a practice session
- - `/api/admin/*` → Admin-only course, catalog, and announcement management
-   cd Break-Code
-   ```
-
- - `ADMIN_EMAILS` — comma-separated emails permitted to manage course content
    npm install
    ```
 
- - Admins manage course and dashboard content in `/admin.html`; application source code is not editable from the browser.
+2. Create a `.env` file in the project root with your environment variables:
 
    ```env
    MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
    MONGODB_DATABASE=breakcode
    PORT=3000
+   JWT_SECRET=replace-with-a-long-random-secret
+   RESEND_API_KEY=your_resend_api_key
+   EMAIL_FROM=BreakCode <onboarding@resend.dev>
+   ADMIN_EMAILS=you@example.com
    ```
 
-4. Start the server:
+   Notes:
+   - `ADMIN_EMAILS` is a comma-separated list of allowed admin emails.
+   - Only users who sign up with one of these emails can access admin routes.
+   - If `ADMIN_EMAILS` is empty, admin APIs remain disabled.
+
+3. Start the application:
 
    ```bash
    npm start
    ```
 
-5. Open the app:
+4. Open the app in a browser:
 
    ```text
    http://localhost:3000
    ```
 
-## Main Routes
+5. Sign up a user account, then sign in with one of the emails listed in `ADMIN_EMAILS` to open the admin page from the dashboard navigation.
 
-- `GET /` → Redirects to login page
-- `POST /api/signup` → Creates a new user
-- `POST /api/login` → Authenticates a user
-- `POST /api/forgot-password/request` → Sends OTP request
-- `POST /api/forgot-password/verify` → Verifies OTP
-- `POST /api/forgot-password/reset` → Resets password
+## API overview
 
-## Deployment
+### Auth routes
 
-This project is set up to run as a single Node app on Render.
+- `GET /` — redirects to the login page
+- `POST /api/signup` — create a new account
+- `POST /api/login` — authenticate a user and return a JWT
+- `POST /api/forgot-password/request` — send a one-time password reset code
+- `POST /api/forgot-password/verify` — validate the OTP
+- `POST /api/forgot-password/reset` — reset a password using the OTP
+- `GET /api/me` — return the current authenticated user and admin state
 
-### Required environment variables
+### Learner routes
 
-# BreakCode
+- `GET /api/dashboard` — load the signed-in user's dashboard data
+- `POST /api/courses/:courseId/enroll` — enroll the user in a published course
+- `POST /api/courses/:courseId/progress` — record a completed lesson
+- `POST /api/practice` — save daily practice minutes
 
-A student project for practicing full-stack web development with authentication, protected routes, and a learning dashboard.
+### Admin routes
 
-## Live Demo
-
-https://break-code.onrender.com
-
-## Features
-
-- Signup, login, and password reset using an email OTP
-- MongoDB-backed accounts and course catalog
-- Course enrollment, lesson progress, practice history, and activity heatmap
-- Responsive learner dashboard
-- Admin workspace for course publishing and dashboard announcements
-
-## Tech Stack
-
-- Node.js and Express
-- MongoDB Atlas
-- HTML, CSS, and JavaScript
-- bcryptjs and JWT authentication
-
-## Project Structure
-
-- `server.js` — backend server, authentication, and API routes
-- `login.html`, `signup.html`, `forgot-password.html` — account workflows
-- `dashboard.html`, `dashboard.css` — learner dashboard
-- `admin.html`, `admin.js`, `admin.css` — admin content studio
-- `.env` — local environment variables
-- `.env.example` — environment variable template
-
-## Local Setup
-
-1. Install dependencies:
-
-  ```bash
-  npm install
-  ```
-
-2. Create a `.env` file with your MongoDB connection and admin email:
-
-  ```env
-  MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
-  MONGODB_DATABASE=breakcode
-  PORT=3000
-  ADMIN_EMAILS=admin@example.com
-  ```
-
-  Replace `admin@example.com` with the email of an account you control. Separate multiple administrator emails with commas. Create that account through signup; the allowlist grants it admin access.
-
-3. Start the server:
-
-  ```bash
-  npm start
-  ```
-
-4. Open `http://localhost:3000`, sign in, and visit the Admin item in the dashboard navigation. The admin workspace can add, edit, publish, and delete courses and update the learner-facing announcement. Application source code is intentionally not editable from the browser.
-
-## Main Routes
-
-- `GET /` — redirects to login
-- `POST /api/signup`, `POST /api/login` — account creation and authentication
-- `POST /api/forgot-password/*` — password recovery
-- `GET /api/dashboard` — signed-in learner catalog and progress
-- `POST /api/courses/:courseId/enroll` — start a course
-- `POST /api/courses/:courseId/progress` — record the next completed lesson
-- `POST /api/practice` — log a practice session
-- `/api/admin/*` — allowlisted course and announcement management
+- `GET /api/admin/overview` — fetch course, learner, and enrollment totals
+- `GET /api/admin/courses` — fetch all courses for the admin panel
+- `GET /api/admin/content` — fetch the current announcement text
+- `POST /api/admin/courses` — create a new course
+- `PUT /api/admin/courses/:courseId` — update a course
+- `DELETE /api/admin/courses/:courseId` — delete a course
+- `PUT /api/admin/announcement` — save the dashboard announcement
 
 ## Deployment
 
-The app is configured for a single Node service on Render.
+This project is designed to run as a single Node application on Render.
 
-- Build command: `npm install`
-- Start command: `npm start`
-- Required variables: `MONGODB_URI`, `MONGODB_DATABASE`, `ADMIN_EMAILS`
+### Recommended deployment model
 
-Keep secrets in environment variables. The real `.env` file is not committed.
+- Keep the frontend and backend together in one web service.
+- Use one Render web service with `npm install` as the build command and `npm start` as the start command.
+- Set the environment variables in the Render dashboard, including `MONGODB_URI`, `MONGODB_DATABASE`, `JWT_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`, and `ADMIN_EMAILS`.
+
+### Render note
+
+- The free Render web tier sleeps after inactivity.
+- That means first requests can take longer after a pause, but this is still the simplest deployment option for this project.
+- If you split frontend and backend across Vercel and Render, it adds more moving parts without a strong benefit for the current architecture.
+
+### Example Render setup
+
+The repository already includes a `render.yaml` file for a free web service:
+
+```yaml
+services:
+  - type: web
+    name: break-code
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+```
+
+## Important notes
+
+- The app connects to MongoDB Atlas using `MONGODB_URI`.
+- `JWT_SECRET` should be set to a strong secret in production.
+- Resend is used for password reset emails, so `RESEND_API_KEY` and `EMAIL_FROM` must be configured to use the forgot-password flow.
+- Admin access is not automatic — the correct email must be present in `ADMIN_EMAILS`.
+- The app seeds a default catalog when the `courses` collection is empty.
 
 ## License
 
-This project is for educational learning and personal development.
+This project is intended for educational and personal development use.
