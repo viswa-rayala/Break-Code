@@ -9,13 +9,15 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: MONGODB_URI
+      - key: SUPABASE_URL
         sync: false
-      - key: MONGODB_DATABASE
-        value: breakcode
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
       - key: JWT_SECRET
         sync: false
       - key: RESEND_API_KEY
         sync: false
       - key: EMAIL_FROM
         value: BreakCode <onboarding@resend.dev>
+      - key: ADMIN_EMAILS
+        sync: false
